@@ -40,7 +40,9 @@ const alternation = (keywords: string[]) =>
     .join('|');
 
 function short(text: string, keywords: string[]) {
-  const k = new RegExp(`^(${alternation(keywords)})`, 'i').exec(text);
+  // Two-letter keywords such as NO would rewrite ordinary English ("no a …")
+  const longEnough = keywords.filter((k) => k.length > 2);
+  const k = new RegExp(`^(${alternation(longEnough)})`, 'i').exec(text);
   if (!k) return null;
   const rest = text.slice(k[0].length);
   const m =

@@ -121,6 +121,7 @@ describe('priority shorthand', () => {
   it('leaves English sentences alone', () => {
     expect(expandShorthand('- todo a book', KEYWORDS)).toBeNull();
     expect(expandShorthand('- todo a write', KEYWORDS)).toBeNull();
+    expect(expandShorthand('- no a 办法', [...KEYWORDS, 'NO'])).toBeNull();
     expect(expandShorthand('- TODO write', KEYWORDS)).toBeNull();
   });
 
