@@ -1346,7 +1346,7 @@ export class EmbeddedTaskItemRenderer {
 
             if (!isFileOpenSuccessfully) {
               console.debug(
-                `TODOseq: File '${task.path}' was not successfully opened. The file type may not be supported by Obsidian.`,
+                `Logseq Style Tasks: File '${task.path}' was not successfully opened. The file type may not be supported by Obsidian.`,
               );
               return;
             }

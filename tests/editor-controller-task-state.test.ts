@@ -113,6 +113,7 @@ describe('Editor Controller - Task State Methods', () => {
     });
 
     it('should return false for non-task lines', async () => {
+      settings.plainItemToggleAddsKeyword = false;
       mockEditor.getLine = () => 'This is not a task line';
 
       const result = await editorController.handleUpdateTaskStateAtLine(
@@ -123,6 +124,23 @@ describe('Editor Controller - Task State Methods', () => {
       );
 
       expect(result).toBe(false);
+    });
+
+    it('adds the default keyword to a plain line (Logseq Style Tasks)', async () => {
+      mockEditor.getLine = () => '- a plain item';
+
+      const result = await editorController.handleUpdateTaskStateAtLine(
+        false,
+        0,
+        mockEditor as any,
+        mockView as any,
+      );
+
+      expect(result).toBe(true);
+      expect(mockEditor.replaceRange).toHaveBeenCalledWith('TODO ', {
+        line: 0,
+        ch: 2,
+      });
     });
 
     it('should return true when checking on valid task line', async () => {

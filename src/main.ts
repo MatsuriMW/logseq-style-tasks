@@ -25,6 +25,7 @@ import { EventCoordinator } from './services/event-coordinator';
 import { ChangeTracker } from './services/change-tracker';
 import { SmartDateProcessor } from './services/smart-date-processor';
 import { ArchiveService } from './services/archive-service';
+import { LogseqStyle } from './logseq-style';
 
 export const TASK_VIEW_ICON = 'list-todo';
 
@@ -71,6 +72,7 @@ export default class TodoTracker extends Plugin {
 
   // Smart date processor for automatic natural language date conversion
   public smartDateProcessor: SmartDateProcessor | null = null;
+  public logseqStyle: LogseqStyle | null = null;
 
   // Public getter methods for internal services
   public getVaultScanner(): VaultScanner | null {
@@ -367,6 +369,7 @@ export default class TodoTracker extends Plugin {
       this.app;
 
     await this.saveData(settingsToSave);
+    this.logseqStyle?.applySettings();
   }
 
   // Update task formatting in all views

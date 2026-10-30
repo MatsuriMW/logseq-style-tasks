@@ -468,7 +468,9 @@ export class TaskKeywordDecorator {
               class: cssClasses,
               attributes: {
                 'data-task-keyword': keyword,
-                'aria-label': `Task keyword: ${keyword}`,
+                ...(this.settings.keywordTooltip
+                  ? { 'aria-label': `Task keyword: ${keyword}` }
+                  : {}),
                 role: 'mark',
                 tabindex: '0', // Make keyboard accessible
               },

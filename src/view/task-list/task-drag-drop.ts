@@ -271,7 +271,7 @@ export class TaskDragDropHandler {
       new Notice(
         // workaround aggresive obsidianmd/ui/sentence-case -- "TODOseq" is a proper name in scentence.
         'Migration is disabled. Configure the migrated state keyword in ' +
-          'TODOseq' +
+          'Logseq Style Tasks' +
           ' settings.',
       );
       return;

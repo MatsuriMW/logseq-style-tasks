@@ -30,6 +30,8 @@ import {
   DatePickerMode,
 } from '../view/components/date-picker-menu';
 import { DateRepeatInfo } from '../types/task';
+import { isTodosChild, withTodo } from '../logseq-style/todos-parent';
+import { addKeyword, canAddKeyword } from '../logseq-style/plain-item';
 
 /**
  * EditorController handles operations related to modifying tasks in the editor
@@ -209,11 +211,17 @@ export class EditorController {
     // Resolve to parent task if cursor is on a date line
     lineNumber = this.resolveTaskLineFromCursor(editor, lineNumber);
 
-    // Get the line from the editor
-    const line = editor.getLine(lineNumber);
-
     // Check if this line contains a valid task using VaultScanner's parser
     const parser = vaultScanner.getParser();
+
+    // Get the line from the editor; a plain child of a "todos:" item is a TODO
+    let line = editor.getLine(lineNumber);
+    if (
+      parser &&
+      isTodosChild((n) => editor.getLine(n), lineNumber, parser.allKeywords)
+    ) {
+      line = withTodo(line);
+    }
 
     // Table cell task detection
     if (isTableRow(line) && parser && !parser.testRegex.test(line)) {
@@ -362,7 +370,22 @@ export class EditorController {
         /\[\^\d+\]:\s+(TODO|DOING|LATER|DONE|CANCELED|CANCELLED|WAIT|WAITING|NOW|IN-PROGRESS)\s+/;
       const footnoteResult = footnoteRegex.test(line);
       if (!footnoteResult) {
-        return false;
+        // A plain line gets the default keyword
+        if (
+          !this.plugin.settings.plainItemToggleAddsKeyword ||
+          !canAddKeyword(editor, lineNumber, line)
+        ) {
+          return false;
+        }
+        if (!checking) {
+          addKeyword(
+            editor,
+            lineNumber,
+            line,
+            this.plugin.settings.stateTransitions?.defaultInactive || 'TODO',
+          );
+        }
+        return true;
       }
     }
 

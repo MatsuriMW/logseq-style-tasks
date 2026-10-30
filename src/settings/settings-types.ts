@@ -1,3 +1,8 @@
+import {
+  DefaultLogseqStyleSettings,
+  LogseqStyleSettings,
+} from '../logseq-style/settings';
+
 export interface SavedSearch {
   id: string; // unique identifier
   name: string; // user-given label, max 50 chars
@@ -72,7 +77,7 @@ export const DefaultTaskArchiveSettings: TaskArchiveSettings = {
   includeNoClosedDate: false,
 };
 
-export interface TodoTrackerSettings {
+export interface TodoTrackerSettings extends LogseqStyleSettings {
   additionalInactiveKeywords: string[]; // Custom inactive keywords (TODO, LATER, FIXME, etc.)
   additionalActiveKeywords: string[]; // Custom active keywords (DOING, NOW, etc.)
   additionalWaitingKeywords: string[]; // Custom waiting keywords (WAIT, WAITING, etc.)
@@ -198,4 +203,5 @@ export const DefaultSettings: TodoTrackerSettings = {
   taskDescriptionDisplay: 'show', // Show descriptions by default
   // Saved searches - default presets
   savedSearches: DEFAULT_SAVED_SEARCHES,
+  ...DefaultLogseqStyleSettings,
 };

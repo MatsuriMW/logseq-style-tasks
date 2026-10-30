@@ -3838,3 +3838,513 @@
 .is-phone .todoseq-dashboard-clickable {
   min-height: 24px;
 }
+
+/* ---------- Logseq Style Tasks: keyword colors ----------
+   Moving forward (TODO / DOING / DONE) is blue, red, green; stopped or failed
+   states use warmer, greyer tones. Saturation is kept low for long sessions.
+   Tuned for light themes. Change a color through --tsq-kw; the glow follows. */
+.todoseq-keyword-formatted[data-task-keyword] {
+  --tsq-kw: var(--interactive-accent);
+  color: var(--tsq-kw);
+}
+:is(.cm-editor, .markdown-preview-view)
+  .todoseq-keyword-formatted[data-task-keyword],
+.markdown-source-view
+  .table-cell-wrapper
+  .todoseq-keyword-formatted[data-task-keyword] {
+  text-shadow: 0 0 1px color-mix(in srgb, var(--tsq-kw) 25%, transparent);
+}
+.todoseq-keyword-formatted:is(
+  [data-task-keyword='TODO'],
+  [data-task-keyword='LATER']
+) {
+  --tsq-kw: #5c86b4;
+}
+.todoseq-keyword-formatted:is(
+  [data-task-keyword='DOING'],
+  [data-task-keyword='NOW'],
+  [data-task-keyword='IN-PROGRESS']
+) {
+  --tsq-kw: #c8635f;
+}
+.todoseq-keyword-formatted[data-task-keyword='DONE'] {
+  --tsq-kw: #629c7f;
+}
+.todoseq-keyword-formatted[data-task-keyword='PAUSED'] {
+  --tsq-kw: #b39a3e;
+}
+.todoseq-keyword-formatted:is(
+  [data-task-keyword='WAITING'],
+  [data-task-keyword='WAIT']
+) {
+  --tsq-kw: #8f7fb6;
+}
+.todoseq-keyword-formatted[data-task-keyword='SUSPENDED'] {
+  --tsq-kw: #a17f66;
+}
+.todoseq-keyword-formatted:is(
+  [data-task-keyword='CANCELLED'],
+  [data-task-keyword='CANCELED']
+) {
+  --tsq-kw: #a4a8ac;
+}
+.todoseq-keyword-formatted[data-task-keyword='FAILED'] {
+  --tsq-kw: #93606b;
+}
+/* Decision keywords follow their group: YES like DONE, NO like CANCELLED, MAYBE like WAITING */
+.todoseq-keyword-formatted[data-task-keyword='YES'] {
+  --tsq-kw: #629c7f;
+}
+.todoseq-keyword-formatted[data-task-keyword='NO'] {
+  --tsq-kw: #a4a8ac;
+}
+.todoseq-keyword-formatted[data-task-keyword='MAYBE'] {
+  --tsq-kw: #8f7fb6;
+}
+/* Agent session states between DOING and done. Each starts at the DOING red
+   and fades toward where it stopped: TOREVIEW → yellow (waiting for review),
+   NEEDOK → ochre (waiting for approval), ERRORED → wine (stopped on an error),
+   DELEGATED → teal (handed to another agent), HITLIMIT → grey purple (usage
+   limit), QUEUED → misty blue (queued to resume). HITLIMIT and NEEDOK are
+   shown with a trailing "!" / "?". */
+.todoseq-keyword-formatted:is(
+  [data-task-keyword='TOREVIEW'],
+  [data-task-keyword='HITLIMIT'],
+  [data-task-keyword='NEEDOK'],
+  [data-task-keyword='QUEUED'],
+  [data-task-keyword='ERRORED'],
+  [data-task-keyword='DELEGATED']
+) {
+  --tsq-kw: #c8635f;
+  background-image: linear-gradient(90deg, var(--tsq-kw), var(--tsq-kw-to) 85%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.todoseq-keyword-formatted[data-task-keyword='TOREVIEW'] {
+  --tsq-kw-to: #b39a3e;
+}
+.todoseq-keyword-formatted[data-task-keyword='NEEDOK'] {
+  --tsq-kw-to: #bf7a45;
+}
+.todoseq-keyword-formatted[data-task-keyword='ERRORED'] {
+  --tsq-kw-to: #93606b;
+}
+.todoseq-keyword-formatted[data-task-keyword='HITLIMIT'] {
+  --tsq-kw-to: #8a5a8c;
+}
+.todoseq-keyword-formatted[data-task-keyword='QUEUED'] {
+  --tsq-kw-to: #6f86a8;
+}
+.todoseq-keyword-formatted[data-task-keyword='DELEGATED'] {
+  --tsq-kw-to: #5b9690;
+}
+.todoseq-keyword-formatted[data-task-keyword='HITLIMIT']::after {
+  content: '!';
+}
+.todoseq-keyword-formatted[data-task-keyword='NEEDOK']::after {
+  content: '?';
+}
+:is(.cm-editor, .markdown-preview-view, .table-cell-wrapper)
+  .todoseq-keyword-formatted:is(
+    [data-task-keyword='TOREVIEW'],
+    [data-task-keyword='HITLIMIT'],
+    [data-task-keyword='NEEDOK'],
+    [data-task-keyword='QUEUED'],
+    [data-task-keyword='ERRORED'],
+    [data-task-keyword='DELEGATED']
+  ) {
+  text-shadow: none; /* Gradient text is transparent; a text shadow would show through */
+}
+
+/* ---------- Logseq Style Tasks: keyword icons ----------
+   Icons follow lucide-animated; color follows the keyword (gradient keywords
+   use the color they fade to). The active group spins continuously; other
+   animations play once under .is-fire, right after the line switches keyword. */
+.tsq-ico {
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  margin-right: 0.22em;
+  vertical-align: -0.15em;
+  color: var(--tsq-ico, var(--interactive-accent));
+  pointer-events: none;
+}
+.tsq-ico svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+  overflow: visible;
+  stroke-width: 2.2;
+}
+.tsq-ico svg * {
+  transform-box: view-box;
+  transform-origin: 12px 12px;
+}
+.tsq-ico:is([data-kw='TODO'], [data-kw='LATER']) {
+  --tsq-ico: #5c86b4;
+}
+.tsq-ico:is([data-kw='DOING'], [data-kw='NOW'], [data-kw='IN-PROGRESS']) {
+  --tsq-ico: #c8635f;
+}
+.tsq-ico[data-kw='DONE'] {
+  --tsq-ico: #629c7f;
+}
+.tsq-ico[data-kw='PAUSED'] {
+  --tsq-ico: #b39a3e;
+}
+.tsq-ico:is([data-kw='WAITING'], [data-kw='WAIT']) {
+  --tsq-ico: #8f7fb6;
+}
+.tsq-ico[data-kw='SUSPENDED'] {
+  --tsq-ico: #a17f66;
+}
+.tsq-ico:is([data-kw='CANCELLED'], [data-kw='CANCELED']) {
+  --tsq-ico: #a4a8ac;
+}
+.tsq-ico[data-kw='FAILED'] {
+  --tsq-ico: #93606b;
+}
+.tsq-ico[data-kw='TOREVIEW'] {
+  --tsq-ico: #b39a3e;
+}
+.tsq-ico[data-kw='NEEDOK'] {
+  --tsq-ico: #bf7a45;
+}
+.tsq-ico[data-kw='ERRORED'] {
+  --tsq-ico: #93606b;
+}
+.tsq-ico[data-kw='HITLIMIT'] {
+  --tsq-ico: #8a5a8c;
+}
+.tsq-ico[data-kw='QUEUED'] {
+  --tsq-ico: #6f86a8;
+}
+.tsq-ico[data-kw='DELEGATED'] {
+  --tsq-ico: #5b9690;
+}
+.tsq-ico[data-kw='YES'] {
+  --tsq-ico: #629c7f;
+}
+.tsq-ico[data-kw='NO'] {
+  --tsq-ico: #a4a8ac;
+}
+.tsq-ico[data-kw='MAYBE'] {
+  --tsq-ico: #8f7fb6;
+}
+
+/* DOING: loader-circle, spinning (0.8 s per turn) */
+.tsq-ico-doing .spin {
+  animation: tsq-spin 0.8s linear infinite;
+}
+@keyframes tsq-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* HITLIMIT: the gauge needle rests at full; it swings over when the state is set */
+.tsq-ico-hitlimit .needle {
+  transform: translate(0.5px, 3px) rotate(72deg);
+}
+.tsq-ico-hitlimit.is-fire .needle {
+  animation: tsq-needle 0.7s cubic-bezier(0.3, 1.5, 0.6, 1) both;
+}
+@keyframes tsq-needle {
+  from {
+    transform: none;
+  }
+  to {
+    transform: translate(0.5px, 3px) rotate(72deg);
+  }
+}
+
+/* Drawn strokes: the check of circle-check, ban, x */
+.tsq-ico.is-fire .draw {
+  stroke-dasharray: 1;
+  animation: tsq-draw 0.4s ease-out both;
+}
+.tsq-ico.is-fire .draw.late {
+  animation-delay: 0.2s;
+}
+.tsq-ico.is-fire .draw.slash {
+  animation-delay: 0.5s;
+}
+.tsq-ico-failed.is-fire .draw {
+  animation-duration: 0.3s;
+}
+@keyframes tsq-draw {
+  from {
+    stroke-dashoffset: 1;
+    opacity: 0;
+  }
+  25% {
+    opacity: 1;
+  }
+  to {
+    stroke-dashoffset: 0;
+    opacity: 1;
+  }
+}
+
+/* TODO: the eight segments of circle-dashed light up one by one */
+.tsq-ico-todo.is-fire .seg {
+  animation: tsq-fade 0.3s ease-out both;
+  animation-delay: calc((var(--i) + 1) * 0.1s);
+}
+@keyframes tsq-fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* TODO for AI: the bot blinks */
+.tsq-ico-bot .eyes {
+  transform-origin: 12px 14px;
+}
+.tsq-ico-bot.is-fire .eyes {
+  animation: tsq-blink 0.5s ease-in-out 0.2s both;
+}
+@keyframes tsq-blink {
+  50% {
+    transform: scaleY(0);
+  }
+}
+
+/* PAUSED: the two bars press down one after the other */
+.tsq-ico-paused.is-fire .l {
+  animation: tsq-press-l 0.5s ease-in-out both;
+}
+.tsq-ico-paused.is-fire .r {
+  animation: tsq-press-r 0.5s ease-in-out both;
+}
+@keyframes tsq-press-l {
+  0%,
+  50%,
+  100% {
+    transform: none;
+  }
+  20% {
+    transform: translateY(2px);
+  }
+}
+@keyframes tsq-press-r {
+  0%,
+  20%,
+  100% {
+    transform: none;
+  }
+  50% {
+    transform: translateY(2px);
+  }
+}
+
+/* WAITING: the hourglass flips (spring) */
+.tsq-ico-waiting.is-fire .flip {
+  animation: tsq-flip 0.8s cubic-bezier(0.34, 1.4, 0.64, 1) both;
+}
+@keyframes tsq-flip {
+  from {
+    transform: none;
+  }
+  to {
+    transform: rotate(180deg);
+  }
+}
+
+/* SUSPENDED: the snowflake wobbles */
+.tsq-ico-suspended.is-fire .wob {
+  animation: tsq-wob 0.4s linear both;
+}
+@keyframes tsq-wob {
+  0%,
+  100% {
+    transform: none;
+  }
+  20%,
+  60% {
+    transform: rotate(-5deg);
+  }
+  40%,
+  80% {
+    transform: rotate(5deg);
+  }
+}
+
+/* CANCELLED: ban draws the circle, then the slash */
+/* (the draw rule is above; this is only the order of circle and slash) */
+
+/* TOREVIEW: the eye blinks */
+.tsq-ico-review.is-fire .lid {
+  animation: tsq-lid 0.4s ease-in-out both;
+}
+.tsq-ico-review.is-fire .pupil {
+  animation: tsq-pupil 0.4s ease-in-out both;
+}
+@keyframes tsq-lid {
+  50% {
+    transform: scaleY(0.1);
+    opacity: 0.3;
+  }
+}
+@keyframes tsq-pupil {
+  50% {
+    transform: scale(0.3);
+    opacity: 0.3;
+  }
+}
+
+/* NEEDOK: a raised hand waves */
+.tsq-ico-needok .wave {
+  transform-origin: 12px 21.6px;
+}
+.tsq-ico-needok.is-fire .wave {
+  animation: tsq-wave 0.8s ease-in-out both;
+}
+@keyframes tsq-wave {
+  25% {
+    transform: rotate(-15deg);
+  }
+  50% {
+    transform: rotate(10deg);
+  }
+  75% {
+    transform: rotate(-5deg);
+  }
+}
+
+/* ERRORED: the alert badge shakes */
+.tsq-ico-errored.is-fire .shake {
+  animation: tsq-shake 0.5s ease-in-out both;
+}
+@keyframes tsq-shake {
+  0%,
+  100% {
+    transform: none;
+  }
+  20% {
+    transform: scale(1.1) rotate(-3deg);
+  }
+  40% {
+    transform: scale(1.1) rotate(3deg);
+  }
+  60% {
+    transform: scale(1.1) rotate(-2deg);
+  }
+  80% {
+    transform: scale(1.05) rotate(2deg);
+  }
+}
+
+/* QUEUED: the alarm clock rings three times */
+.tsq-ico-queued.is-fire .ring {
+  animation: tsq-ring 0.9s linear both;
+}
+.tsq-ico-queued.is-fire .bells {
+  animation: tsq-bells 0.9s linear both;
+}
+@keyframes tsq-ring {
+  0%,
+  100% {
+    transform: none;
+  }
+  10%,
+  30%,
+  50%,
+  70% {
+    transform: translate(-1px, -1.5px);
+  }
+  20%,
+  40%,
+  60%,
+  80% {
+    transform: translate(1px, -1.5px);
+  }
+}
+@keyframes tsq-bells {
+  0%,
+  100% {
+    transform: none;
+  }
+  10%,
+  30%,
+  50%,
+  70% {
+    transform: translate(-2px, -2.5px);
+  }
+  20%,
+  40%,
+  60%,
+  80% {
+    transform: translate(2px, -2.5px);
+  }
+}
+
+/* DELEGATED: the paper plane flies up and right and back, trailing a dashed line */
+.tsq-ico-delegated .trail {
+  opacity: 0;
+}
+.tsq-ico-delegated.is-fire .fly {
+  animation: tsq-fly 0.9s ease-in-out both;
+}
+.tsq-ico-delegated.is-fire .trail {
+  animation: tsq-trail 0.9s ease-out both;
+}
+@keyframes tsq-fly {
+  0%,
+  100% {
+    transform: none;
+  }
+  50% {
+    transform: translate(3px, -3px) scale(0.8);
+  }
+}
+@keyframes tsq-trail {
+  0% {
+    opacity: 0;
+  }
+  30%,
+  60% {
+    opacity: 0.7;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+/* YES: thumb flicks up; NO: thumb taps down (both around the wrist); MAYBE: the question mark wobbles */
+.tsq-ico-yes .thumb {
+  transform-origin: 7px 22px;
+}
+.tsq-ico-no .thumb {
+  transform-origin: 17px 2px;
+}
+.tsq-ico-yes.is-fire .thumb {
+  animation: tsq-thumb-up 0.6s cubic-bezier(0.3, 1.4, 0.6, 1) both;
+}
+.tsq-ico-no.is-fire .thumb {
+  animation: tsq-thumb-down 0.6s cubic-bezier(0.3, 1.4, 0.6, 1) both;
+}
+.tsq-ico-maybe.is-fire .q {
+  animation: tsq-wob 0.5s linear both;
+}
+@keyframes tsq-thumb-up {
+  40% {
+    transform: translateY(-1.5px) rotate(-14deg);
+  }
+}
+@keyframes tsq-thumb-down {
+  40% {
+    transform: translateY(1.5px) rotate(-14deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tsq-ico *,
+  .tsq-ico.is-fire * {
+    animation: none !important;
+  }
+}

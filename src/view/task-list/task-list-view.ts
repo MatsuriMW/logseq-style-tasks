@@ -1575,7 +1575,7 @@ export class TaskListView extends ItemView {
 
   getDisplayText() {
     // workaround for aggressive obsidianmd/ui/sentence-case lint check
-    return 'TODO' + 'seq';
+    return 'Logseq ' + 'Style Tasks';
   }
 
   getIcon(): string {
@@ -2590,7 +2590,7 @@ export class TaskListView extends ItemView {
 
     if (!isFileOpenSuccessfully) {
       console.debug(
-        `TODOseq: File '${task.path}' was not successfully opened. The file type may not be supported by Obsidian.`,
+        `Logseq Style Tasks: File '${task.path}' was not successfully opened. The file type may not be supported by Obsidian.`,
       );
       return;
     }

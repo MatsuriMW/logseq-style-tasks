@@ -85,7 +85,9 @@ export class ReaderViewFormatter {
       text: keyword,
       attr: {
         'data-task-keyword': keyword,
-        'aria-label': `Task keyword: ${keyword}`,
+        ...(this.plugin.settings.keywordTooltip
+          ? { 'aria-label': `Task keyword: ${keyword}` }
+          : {}),
         role: 'mark',
         tabindex: '0',
       },

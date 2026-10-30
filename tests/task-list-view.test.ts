@@ -334,8 +334,8 @@ describe('TaskListView', () => {
   });
 
   describe('getDisplayText', () => {
-    it('should return Todoseq as display text', () => {
-      expect(view.getDisplayText()).toBe('TODOseq');
+    it('should return the plugin name as display text', () => {
+      expect(view.getDisplayText()).toBe('Logseq Style Tasks');
     });
   });
 

@@ -21,6 +21,7 @@ import { TaskListView } from '../view/task-list/task-list-view';
 import { KeywordGroup } from '../types/task';
 import { TransitionParser } from '../services/transition-parser';
 import { KeywordManager } from '../utils/keyword-manager';
+import { buildLogseqStyleGroups } from '../logseq-style/settings-ui';
 
 function hideSettingNameAndControl(setting: Setting): void {
   setting.nameEl.classList.add('todoseq-hidden');
@@ -677,6 +678,7 @@ export class TodoTrackerSettingTab extends PluginSettingTab {
           },
         ],
       },
+      ...buildLogseqStyleGroups(this.plugin, () => this.update()),
       this.buildAutoArchiveGroup(),
       {
         type: 'group',

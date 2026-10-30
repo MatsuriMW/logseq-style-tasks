@@ -40,6 +40,7 @@ import {
   stripMarkdownPrefixes,
   HEADING_PREFIX_SOURCE,
 } from '../utils/patterns';
+import { applyTodosParent } from '../logseq-style/todos-parent';
 
 type RegexPair = { test: RegExp; capture: RegExp };
 
@@ -1141,7 +1142,7 @@ export class TaskParser implements ITaskParser {
 
   // Parse a single file content into Task[], pure and stateless w.r.t. external app
   parseFile(content: string, path: string, file?: TFile): Task[] {
-    const lines = content.split('\n');
+    const lines = applyTodosParent(content.split('\n'), this.allKeywords);
 
     // Initialize state machine
     let inBlock = false;

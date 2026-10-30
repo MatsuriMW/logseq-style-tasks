@@ -6,6 +6,7 @@ import { dateAutocompleteExtension } from './view/editor-extensions/date-autocom
 import { parseTableCells, getTableCellIndex } from './utils/task-line-utils';
 import { TaskListView } from './view/task-list/task-list-view';
 import { getStateTransitionManager } from './services/task-update-coordinator';
+import { openKeywordNote } from './logseq-style/keyword-note';
 
 /**
  * Manages UI elements and interactions in the editor
@@ -97,7 +98,25 @@ export class UIManager {
                 const keywordElement = target.closest(
                   '.todoseq-keyword-formatted',
                 );
-                if (keywordElement) {
+                const keyword =
+                  keywordElement?.getAttribute('data-task-keyword');
+                if (
+                  keyword &&
+                  event.button === 0 &&
+                  this.plugin.settings.keywordClickAction === 'note'
+                ) {
+                  // Open the keyword's note instead of changing the state
+                  event.preventDefault();
+                  event.stopImmediatePropagation();
+                  openKeywordNote(
+                    this.plugin.app,
+                    keyword.toUpperCase(),
+                    this.plugin.settings.keywordNoteFolder,
+                    this.plugin.settings.keywordNoteTemplate,
+                  ).catch((error) => {
+                    console.error('Failed to open keyword note:', error);
+                  });
+                } else if (keywordElement) {
                   // Handle task state update with double-click detection
                   this.handleTaskKeywordClickWithDoubleClickDetection(
                     keywordElement as HTMLElement,

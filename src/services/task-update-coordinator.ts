@@ -31,6 +31,7 @@ import {
   UrgencyCoefficients,
 } from '../utils/task-urgency';
 import type { StateTransitionSettings } from '../settings/settings-types';
+import { isTodosChild, withTodo } from '../logseq-style/todos-parent';
 
 /**
  * Types of task updates supported by the coordinator
@@ -430,7 +431,9 @@ export class TaskUpdateCoordinator {
         return null;
       }
 
-      const line = lines[taskLine];
+      const line = isTodosChild((n) => lines[n], taskLine, parser.allKeywords)
+        ? withTodo(lines[taskLine])
+        : lines[taskLine];
       const parsedTask = parser.parseLine(line, taskLine, taskPath);
 
       if (parsedTask) {
@@ -976,8 +979,13 @@ export class TaskUpdateCoordinator {
 
       keywordEl.textContent = newState;
       keywordEl.setAttribute('data-task-keyword', newState);
-      keywordEl.setAttribute('aria-label', `Task keyword: ${newState}`);
-      keywordEl.setAttribute('title', `Task keyword: ${newState}`);
+      if (this.plugin.settings.keywordTooltip) {
+        keywordEl.setAttribute('aria-label', `Task keyword: ${newState}`);
+        keywordEl.setAttribute('title', `Task keyword: ${newState}`);
+      } else {
+        keywordEl.removeAttribute('aria-label');
+        keywordEl.removeAttribute('title');
+      }
 
       const wasCompleted = KeywordManager.isCompletedKeyword(
         oldState,

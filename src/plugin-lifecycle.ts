@@ -28,6 +28,7 @@ import {
   smartDatePlugin,
   smartDateHighlightPlugin,
 } from './view/editor-extensions/smart-date-extension';
+import { LogseqStyle } from './logseq-style';
 
 /** Window flag key to detect hot reload vs fresh Obsidian startup */
 const TODOSEQ_HOT_RELOAD_FLAG = '__todoseq_wasUnloaded';
@@ -186,6 +187,10 @@ export class PluginLifecycleManager {
           this.plugin.taskStateManager.getKeywordManager(),
         ),
     );
+
+    // Features added by the Logseq Style Tasks fork
+    this.plugin.logseqStyle = new LogseqStyle(this.plugin);
+    this.plugin.logseqStyle.register();
 
     // Add settings tab
     this.plugin.addSettingTab(
@@ -558,7 +563,7 @@ export class PluginLifecycleManager {
     // Conditional ribbon icon - only show on mobile devices
     if (Platform.isMobile) {
       // workaround obsidianmd/ui/sentence-case -- "Open TODOseq"
-      this.plugin.addRibbonIcon(TASK_VIEW_ICON, 'Open ' + 'TODOseq', () => {
+      this.plugin.addRibbonIcon(TASK_VIEW_ICON, 'Open ' + 'Logseq Style Tasks', () => {
         this.plugin.uiManager.showTasks().catch((error) => {
           new Notice('Failed to open task list');
           console.error('Error opening task list:', error);
@@ -787,7 +792,7 @@ export class PluginLifecycleManager {
       if (archivedCount === 0) return;
 
       showArchiveRunNotice(
-        `TODOseq auto-archived ${archivedCount} task${
+        `Logseq Style Tasks auto-archived ${archivedCount} task${
           archivedCount === 1 ? '' : 's'
         }`,
         {

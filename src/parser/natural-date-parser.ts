@@ -15,6 +15,7 @@
 
 import { DateRepeatInfo } from '../types/task';
 import * as chrono from 'chrono-node';
+import { maskProgressFractions } from '../logseq-style/progress-fraction';
 
 // ---------------------------------------------------------------------------
 // Recurrence overlay (TODOseq-specific, runs before Sherlock)
@@ -280,8 +281,8 @@ export class NaturalDateParser {
     text: string,
     referenceDate: Date = new Date(),
   ): ParsedDateInfo | null {
-    const trimmed = text.trim();
-    if (!trimmed.length) return null;
+    const trimmed = maskProgressFractions(text.trim());
+    if (!trimmed.trim().length) return null;
 
     // Pass 1 — recurrence overlay
     {

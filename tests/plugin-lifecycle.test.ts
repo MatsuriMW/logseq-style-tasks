@@ -37,6 +37,7 @@ jest.mock('../src/main', () => ({
       },
       vault: {
         getMarkdownFiles: jest.fn().mockReturnValue([]),
+        on: jest.fn().mockReturnValue('mock-ref'),
       },
     };
     keywordManager = {};
@@ -219,10 +220,12 @@ describe('PluginLifecycleManager', () => {
         workspace: {
           onLayoutReady: jest.fn((callback) => callback()),
           getLeavesOfType: jest.fn().mockReturnValue([]),
+          iterateAllLeaves: jest.fn(),
           on: jest.fn().mockReturnValue('mock-ref'),
         },
         vault: {
           getMarkdownFiles: jest.fn().mockReturnValue([]),
+          on: jest.fn().mockReturnValue('mock-ref'),
         },
       },
       keywordManager: {},
