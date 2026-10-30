@@ -6,6 +6,8 @@ Logseq Style Tasks is a fork of [TODOseq](https://github.com/scross01/obsidian-t
 
 > This is not the official TODOseq plugin. If you don't need the additions below, use [TODOseq](https://obsidian.md/plugins?id=todoseq).
 
+![A journal in the editor: each keyword gets a small icon (DOING spins), priorities show as A / B badges, and the children of `todos:` count as tasks without a keyword.](https://raw.githubusercontent.com/MatsuriMW/logseq-style-tasks/main/docs/screenshot.png)
+
 **Contents**
 
 - [Why this fork exists](#why-this-fork-exists)
