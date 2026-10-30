@@ -6,6 +6,18 @@ Logseq Style Tasks is a fork of [TODOseq](https://github.com/scross01/obsidian-t
 
 > This is not the official TODOseq plugin. If you don't need the additions below, use [TODOseq](https://obsidian.md/plugins?id=todoseq).
 
+**Contents**
+
+- [Why this fork exists](#why-this-fork-exists)
+- [What it adds](#what-it-adds)
+- [Installing](#installing)
+- [Documentation](#documentation)
+- [Maintenance](#maintenance)
+- [Privacy](#privacy)
+- [Feedback and updates](#feedback-and-updates)
+- [Credits](#credits)
+- [License](#license)
+
 ## Why this fork exists
 
 I moved a journal vault from Logseq to Obsidian and use TODOseq every day. Over a few months I patched my copy for how I work: `todos:` blocks, priority shorthand, a hotkey per group of keywords, and a short sound and animation each time a task changes state, which makes clearing the day's list a bit more fun. Some of these are personal taste rather than something every TODOseq user wants, so they live in a separate plugin. Stephen Cross [agreed](https://github.com/scross01/obsidian-todoseq/issues/87) to a fork under its own name and id. Fixes that suit everyone are sent upstream instead, like the nested-task indentation fix ([scross01/obsidian-todoseq#89](https://github.com/scross01/obsidian-todoseq/pull/89)).
@@ -61,6 +73,10 @@ Bugs in the additions above: [report here](https://github.com/MatsuriMW/logseq-s
 ## Privacy
 
 No network requests. Everything runs locally in your vault.
+
+## Feedback and updates
+
+To follow new features, send feedback or keep up with progress, follow me on Twitter: [@Matsurimywaifu](https://x.com/Matsurimywaifu).
 
 ## Credits
 
