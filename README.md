@@ -1,87 +1,72 @@
-# TODOseq for Obsidian
+# Logseq Style Tasks
 
-[![Obsidian Downloads](https://img.shields.io/badge/dynamic/json?logo=obsidian&color=%23483699&label=downloads&query=%24%5B%22todoseq%22%5D.downloads&url=https%3A%2F%2Fraw.githubusercontent.com%2Fobsidianmd%2Fobsidian-releases%2Fmaster%2Fcommunity-plugin-stats.json)](https://obsidian.md/plugins?id=todoseq)
-[![GitHub Release](https://img.shields.io/github/v/release/scross01/obsidian-todoseq?logo=github&color=blue)](https://github.com/scross01/obsidian-todoseq/releases/latest)
-[![License](https://img.shields.io/github/license/scross01/obsidian-todoseq)](LICENSE)
+**Keyword tasks for Logseq-style journals in Obsidian, with a little sound and motion.**
 
-**Keyword-based task management for Obsidian. No checkboxes required.**
+Logseq Style Tasks is a fork of [TODOseq](https://github.com/scross01/obsidian-todoseq) by Stephen Cross. Everything TODOseq does is still here: plain `TODO` / `DOING` / `DONE` keywords instead of checkboxes, a vault-wide Task List, natural language dates, embedded task lists, dashboards. On top of that it adds the habits of someone who journals the Logseq way: tasks written as outline items in the daily note, switched with the keyboard many times a day.
 
-TODOseq ("to-do-seek") scans your vault for plain lines that start with `TODO`, `DOING`, and `DONE`, then collects them into one Task List. Keep writing in ordinary notes — inspired by Emacs Org-mode and Logseq. Free and open source (MIT).
+> This is not the official TODOseq plugin. If you don't need the additions below, use [TODOseq](https://obsidian.md/plugins?id=todoseq).
 
-[Install from Community Plugins](https://obsidian.md/plugins?id=todoseq) · [Documentation](https://scross01.github.io/obsidian-todoseq/) · [Report an issue](https://github.com/scross01/obsidian-todoseq/issues)
+## Why this fork exists
 
-![Click a TODO keyword in Obsidian to cycle its task state](docs/assets/todoseq-task-entry.gif)
+I moved a journal vault from Logseq to Obsidian and use TODOseq every day. Over a few months I patched my copy for how I work: `todos:` blocks, priority shorthand, a hotkey per group of keywords, and a short sound and animation each time a task changes state, which makes clearing the day's list a bit more fun. Some of these are personal taste rather than something every TODOseq user wants, so they live in a separate plugin. Stephen Cross [agreed](https://github.com/scross01/obsidian-todoseq/issues/87) to a fork under its own name and id. Fixes that suit everyone are sent upstream instead, like the nested-task indentation fix ([scross01/obsidian-todoseq#89](https://github.com/scross01/obsidian-todoseq/pull/89)).
 
-## Why TODOseq?
+## What it adds
 
-Most task managers force you into a separate system. TODOseq meets you where you already work — inside your Obsidian notes. Type `TODO Write report` anywhere, and it appears in the Task List. No second app, no checkbox ceremony.
+Every addition can be turned off in **Settings → Logseq Style Tasks → Logseq style**.
 
-- Plain keywords instead of `- [ ]` checkbox syntax
-- Logseq / Org-mode compatible, including natural-language dates
-- Vault-wide Task List: search, urgency, priorities, embedded lists
+- **`todos:` blocks.** Direct children of a `- todos:` list item are tasks even without a keyword. The keyword is written into the line the first time you change its state.
 
-## What you get
+  ```markdown
+  - todos:
+    - write the report        ← read as TODO
+    - DOING review the PR     ← keeps its own keyword
+  ```
 
-- Keywords `TODO` / `DOING` / `DONE` / … with `[#A]` priorities
-- Natural language dates converted to structured Org dates
-- Unified Task List with filters, urgency sort, and advanced queries
-- Works in Edit and Reading views; click a keyword or `Ctrl+Enter`
-- Code-comment TODOs in 20+ languages
-- `todoseq` embedded lists in notes
-- `todoseq-dashboard` aggregation cards in notes (counts by state, priority, tag, or date bucket with drill-through)
-- Subtasks, repeating tasks, optional CLOSED dates
-- Auto-archive: promote aged DONE tasks to ARCHIVED, with preview and one-click undo
-- Logseq-compatible format for dual-use vaults
+- **Toggle on a plain item adds `TODO`.** Toggle task state on a list item without a keyword turns it into a task, on an empty line it starts `- TODO `.
+- **Keyword cycle groups.** Define groups of keywords that cycle in order, for example `MAYBE → YES → NO` or `TODO4AI → DOING → DONE`. Each group gets its own command, so it can have its own hotkey in **Settings → Hotkeys**. On a line whose keyword is in the group the command moves to the next one; any other line gets the group's first keyword.
+- **Priority shorthand.** Type `todoa write` or `todo a 写稿` and it becomes `TODO [#A] write` when the cursor leaves the line, the same way smart dates wait until you are done typing. A time after `DOING` stays in front: `doing b 14:05 report` → `DOING 14:05 [#B] report`.
+- **Toggle important / urgent.** Two commands that treat priorities as an Eisenhower matrix: A = important and urgent, B = urgent, C = important, neither = no priority.
+- **Uppercase keywords.** Keywords you list (for example `TODO4AI`) are uppercased when typed in lower case.
+- **Animated keyword icons.** A small icon in front of each keyword in the editor. DOING spins; the others play a short animation once, right after the line changes state. Respects reduced motion.
+- **Task sounds.** A short, quiet synthesized cue when a task changes state, whoever changed it: a hotkey, a click, the Task List, or typing. Forward steps rise (DONE settles softly), pauses and cancellations fall. No audio files, silent while Obsidian is in the background.
+- **A calmer palette.** Lower-saturation keyword colors tuned for light themes, including colors for decision keywords (`YES` / `NO` / `MAYBE`) and agent session states (`TOREVIEW`, `NEEDOK`, `ERRORED`, `HITLIMIT`, `QUEUED`, `DELEGATED`) if you add them as custom keywords.
+- **Click a keyword to open its note** (optional). Instead of changing the state, a click opens `Keyword queries/DOING.md`, created from a template the first time. The default template is an embedded task list of every task in that state.
+- **Fractions are progress.** A standalone `2/3` on a task line is progress, not February 3rd.
+- **Keyword tooltip** can be turned off.
 
-More detail in the [documentation](https://scross01.github.io/obsidian-todoseq/).
+## Installing
 
-## Quick start
+Not in the community plugin directory yet. Until then:
 
-1. **Install:** Settings → Community plugins → Browse → search **TODOseq** → Install → Enable
-2. **Type a task** in any note:
+1. Download `main.js`, `manifest.json` and `styles.css` from the [latest release](https://github.com/MatsuriMW/logseq-style-tasks/releases/latest).
+2. Put them in `<your vault>/.obsidian/plugins/logseq-style-tasks/`.
+3. Enable **Logseq Style Tasks** in **Settings → Community plugins**.
 
-```markdown
-TODO [#A] Finish quarterly report #work tomorrow
-DOING Review pull requests #coding
-DONE Submit expense report
-```
+Or install with [BRAT](https://github.com/TfTHacker/obsidian42-brat) using `MatsuriMW/logseq-style-tasks`.
 
-3. **Open the Task List** — right sidebar, or Command Palette → “TODOseq: Show task list”
+### Coming from TODOseq
+
+Don't run both at once: they read the same keywords and the same `todoseq` code blocks. Disable TODOseq first. To keep your settings, copy `.obsidian/plugins/todoseq/data.json` to `.obsidian/plugins/logseq-style-tasks/data.json` before enabling this plugin. Hotkeys are stored per plugin id, so set them again in **Settings → Hotkeys**. Your notes don't change: embedded lists still use the `todoseq` code block.
 
 ## Documentation
 
-Full guides: **[scross01.github.io/obsidian-todoseq](https://scross01.github.io/obsidian-todoseq/)**
+For everything inherited from TODOseq (keywords, Task List, search, dates, embedded lists, dashboards) see the [TODOseq documentation](https://scross01.github.io/obsidian-todoseq/).
 
-Start here:
+## Maintenance
 
-- [Introduction](https://scross01.github.io/obsidian-todoseq/introduction.html) — approach and Logseq compatibility
-- [Task List](https://scross01.github.io/obsidian-todoseq/task-list.html) — using the panel
-- [Task Entry](https://scross01.github.io/obsidian-todoseq/task-entry.html) — syntax and lifecycle
-- [Search](https://scross01.github.io/obsidian-todoseq/search.html) — filters and advanced queries
-- [Auto-Archive](https://scross01.github.io/obsidian-todoseq/auto-archive.html) — promote aged DONE tasks to ARCHIVED
+This fork follows upstream. When TODOseq releases a new version (for example 0.22.x), it is merged in. The fork has its own version numbers starting at 1.0.0; each release note says which TODOseq version it is based on. 1.0.0 is based on TODOseq 0.21.2. If a feature from here is adopted by TODOseq, it is removed from the fork.
 
-## Development
+Bugs in the additions above: [report here](https://github.com/MatsuriMW/logseq-style-tasks/issues). Bugs that also happen in TODOseq: please report them [upstream](https://github.com/scross01/obsidian-todoseq/issues).
 
-Requires Node.js 20+.
+## Privacy
 
-| Command                           | Purpose                       |
-| --------------------------------- | ----------------------------- |
-| `npm install`                     | Install dependencies          |
-| `npm run dev`                     | esbuild watch mode            |
-| `npm run build`                   | Typecheck + production bundle |
-| `npm test`                        | Unit tests                    |
-| `npm run lint` / `npm run format` | ESLint / Prettier             |
-| `npm run docs:dev`                | VitePress docs dev server     |
+No network requests. Everything runs locally in your vault.
 
-Integration tests, CDP debugging, and PR expectations: see [CONTRIBUTING.md](CONTRIBUTING.md) and [AGENTS.md](AGENTS.md).
+## Credits
 
-## Contributing
-
-Issues and pull requests are welcome. See [CONTRIBUTING.md](CONTRIBUTING.md).
-
-- [Report issues](https://github.com/scross01/obsidian-todoseq/issues) or request features
-- Star the repo if TODOseq is useful to you
+- [TODOseq](https://github.com/scross01/obsidian-todoseq) by Stephen Cross, MIT. This plugin is built on it.
+- Icons from [Lucide](https://lucide.dev), ISC. Animations follow [lucide-animated](https://github.com/pqoqubbw/icons), MIT.
 
 ## License
 
-MIT — see [LICENSE](LICENSE).
+[MIT](LICENSE)

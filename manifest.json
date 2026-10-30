@@ -1,10 +1,10 @@
 {
-	"id": "todoseq",
-	"name": "TODOseq",
-	"version": "0.21.2",
+	"id": "logseq-style-tasks",
+	"name": "Logseq Style Tasks",
+	"version": "1.0.0",
 	"minAppVersion": "1.13.0",
-	"description": "Lightweight keyword-based task tracker using Logseq style keywords.",
-	"author": "Stephen Cross",
-	"authorUrl": "https://stephencross.site/",
+	"description": "Keyword tasks for Logseq-style journals: todos: blocks, priority shorthand, keyword cycle groups with their own hotkeys, animated keyword icons and task sounds. A fork of TODOseq.",
+	"author": "MatsuriMW",
+	"authorUrl": "https://github.com/MatsuriMW",
 	"isDesktopOnly": false
 }
