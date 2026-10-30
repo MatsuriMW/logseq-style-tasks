@@ -6,7 +6,7 @@ Logseq Style Tasks is a fork of [TODOseq](https://github.com/scross01/obsidian-t
 
 > This is not the official TODOseq plugin. If you don't need the additions below, use [TODOseq](https://obsidian.md/plugins?id=todoseq).
 
-![A journal in the editor: each keyword gets a small icon (DOING spins), priorities show as A / B badges, and the children of `todos:` count as tasks without a keyword.](https://raw.githubusercontent.com/MatsuriMW/logseq-style-tasks/main/docs/screenshot.png)
+![A journal in the editor: each keyword gets a small icon, priorities show as A / B badges, and the children of `todos:` count as tasks without a keyword.](https://raw.githubusercontent.com/MatsuriMW/logseq-style-tasks/main/docs/screenshot.png)
 
 **Contents**
 
@@ -41,7 +41,7 @@ Every addition can be turned off in **Settings → Logseq Style Tasks → Logseq
 - **Priority shorthand.** Type `todoa write` or `todo a 写稿` and it becomes `TODO [#A] write` when the cursor leaves the line, the same way smart dates wait until you are done typing. A time after `DOING` stays in front: `doing b 14:05 report` → `DOING 14:05 [#B] report`.
 - **Toggle important / urgent.** Two commands that treat priorities as an Eisenhower matrix: A = important and urgent, B = urgent, C = important, neither = no priority.
 - **Uppercase keywords.** Keywords you list (for example `TODO4AI`) are uppercased when typed in lower case.
-- **Animated keyword icons.** A small icon in front of each keyword in the editor. DOING spins; the others play a short animation once, right after the line changes state. Respects reduced motion.
+- **Animated keyword icons.** A small icon in front of each keyword in the editor. Each plays a short animation once, right after the line changes state, and then rests: nothing loops, so an idle editor does not keep repainting. Respects reduced motion.
 - **Task sounds.** A short, quiet synthesized cue when a task changes state, whoever changed it: a hotkey, a click, the Task List, or typing. Forward steps rise (DONE settles softly), pauses and cancellations fall. No audio files, silent while Obsidian is in the background.
 - **A calmer palette.** Lower-saturation keyword colors tuned for light themes, including colors for decision keywords (`YES` / `NO` / `MAYBE`) and agent session states (`TOREVIEW`, `NEEDOK`, `ERRORED`, `HITLIMIT`, `QUEUED`, `DELEGATED`) if you add them as custom keywords.
 - **Click a keyword to open its note** (optional). Instead of changing the state, a click opens `Keyword queries/DOING.md`, created from a template the first time. The default template is an embedded task list of every task in that state.

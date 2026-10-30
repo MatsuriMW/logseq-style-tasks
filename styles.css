@@ -3959,8 +3959,9 @@
 
 /* ---------- Logseq Style Tasks: keyword icons ----------
    Icons follow lucide-animated; color follows the keyword (gradient keywords
-   use the color they fade to). The active group spins continuously; other
-   animations play once under .is-fire, right after the line switches keyword. */
+   use the color they fade to). Every animation plays once under .is-fire, right
+   after the line switches keyword. Nothing loops: a looping animation keeps the
+   whole window repainting every frame, even when Obsidian sits in the background. */
 .tsq-ico {
   display: inline-block;
   width: 1em;
@@ -4033,9 +4034,9 @@
   --tsq-ico: #8f7fb6;
 }
 
-/* DOING: loader-circle, spinning (0.8 s per turn) */
-.tsq-ico-doing .spin {
-  animation: tsq-spin 0.8s linear infinite;
+/* DOING: loader-circle. One turn when the line switches to DOING, then it rests */
+.tsq-ico-doing.is-fire .spin {
+  animation: tsq-spin 0.8s ease-out;
 }
 @keyframes tsq-spin {
   to {
